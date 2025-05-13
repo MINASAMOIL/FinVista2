@@ -1,0 +1,548 @@
+/* Shared Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: #f0f4f8;
+    color: #2d3748;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin: 2rem 0;
+    color: #2b6cb0;
+    font-size: 2.5rem;
+}
+
+#map {
+    height: 400px;
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 2rem 0;
+}
+
+.atm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+.atm-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.atm-card:hover {
+    transform: translateY(-3px);
+}
+
+.bank-name {
+    color: #4a5568;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.queue-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+    color: #718096;
+}
+
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.feature-tag {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    background: #e2e8f0;
+    color: #4a5568;
+}
+
+.status {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.available { background: #c6f6d5; color: #22543d; }
+.in-use { background: #fed7d7; color: #742a2a; }
+.maintenance { background: #f6e05e; color: #744210; }
+
+.button-group {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.reserve-btn {
+    background: #4299e1;
+    color: white;
+}
+
+.reserve-btn:hover {
+    background: #3182ce;
+}
+
+.navigate-btn {
+    background: #48bb78;
+    color: white;
+}
+
+.navigate-btn:hover {
+    background: #38a169;
+}
+
+.alert-btn {
+    background: #ed64a6;
+    color: white;
+}
+
+.alert-btn:hover {
+    background: #d53f8c;
+}
+
+button:disabled {
+    background: #cbd5e0;
+    cursor: not-allowed;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 300px;
+    text-align: center;
+    position: relative;
+}
+
+.modal-content h2 {
+    margin-bottom: 1rem;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+.modal-content button {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+    font-size: 2rem;
+    color: #2b6cb0;
+    background: none;
+    border: none;
+    z-index: 10;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: #e53e3e;
+}
+
+.auth-buttons {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.auth-buttons button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* Login/Signup Page Styles */
+.auth-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 10%;
+}
+
+.auth-container h1 {
+    color: #2b6cb0;
+    margin-bottom: 1.5rem;
+}
+
+.auth-container input {
+    width: 100%;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.auth-container input:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+.auth-container button {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 8px;
+    background: #4299e1;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 1rem;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.auth-container button:hover {
+    background: #3182ce;
+}
+
+.guest-button {
+    background: #48bb78;
+    margin-top: 1rem;
+}
+
+.guest-button:hover {
+    background: #38a169;
+}
+
+.auth-switch {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #4a5568;
+}
+
+.auth-switch a {
+    color: #4299e1;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.auth-switch a:hover {
+    text-decoration: underline;
+}
+
+#signup-form, #login-form {
+    transition: opacity 0.3s ease;
+}
+
+/* Hide ATM Finder Page Initially */
+#atm-finder-page {
+    display: none;
+}
+/* Dashboard Styles */
+.dashboard {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.dashboard-header h2 {
+    color: #2b6cb0;
+    font-size: 1.5rem;
+}
+
+.dashboard-header button {
+    padding: 0.5rem 1rem;
+    background: #4299e1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.dashboard-header button:hover {
+    background: #3182ce;
+}
+
+.quick-actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.quick-actions button {
+    padding: 0.75rem 1.5rem;
+    background: #48bb78;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.quick-actions button:hover {
+    background: #38a169;
+}
+
+.atm-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.metric-card {
+    background: #f0f4f8;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.metric-card h3 {
+    color: #4a5568;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.metric-card p {
+    color: #2d3748;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.notifications {
+    background: #f0f4f8;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.notifications h3 {
+    color: #4a5568;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.notifications ul {
+    list-style: none;
+    padding: 0;
+}
+
+.notifications li {
+    background: white;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Form Validation Styles */
+.form-group {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.error-message {
+    color: #e53e3e;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    min-height: 1rem;
+}
+
+.password-strength {
+    margin-top: 0.5rem;
+}
+
+.strength-meter {
+    width: 100%;
+    height: 6px;
+    background-color: #e2e8f0;
+    border-radius: 3px;
+    margin-bottom: 0.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+#strength-meter-bar {
+    height: 100%;
+    width: 0%;
+    border-radius: 3px;
+    transition: width 0.3s, background-color 0.3s;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#strength-text {
+    font-size: 0.8rem;
+    color: #718096;
+    display: block;
+    text-align: center;
+    margin-top: 0.25rem;
+}
+
+/* Password Strength Colors */
+.weak {
+    background-color: #fc8181 !important;
+}
+
+.medium {
+    background-color: #f6e05e !important;
+}
+
+.strong {
+    background-color: #68d391 !important;
+}
+
+/* Input Validation Styles */
+input:invalid {
+    border-color: #fc8181;
+}
+
+input:valid {
+    border-color: #68d391;
+}
+
+/* Password Generation Styles */
+.password-input-group {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+    position: static;
+    margin-bottom: 0.25rem;
+}
+
+.password-input-group input {
+    flex: 1 1 0%;
+    min-width: 150px;
+    max-width: 100%;
+}
+
+.generate-password-btn,
+.copy-password-btn,
+.show-password-btn {
+    flex: none;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    max-width: 32px;
+    max-height: 32px;
+    padding: 0;
+    margin: 0;
+    font-size: 1.1rem;
+    background: #e2e8f0;
+    color: #2b6cb0;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+    box-shadow: none;
+}
+
+.generate-password-btn:hover,
+.copy-password-btn:hover,
+.show-password-btn:hover {
+    background: #cbd5e0;
+    color: #2b6cb0;
+}
+
+.copy-password-btn {
+    background: #48bb78;
+}
+
+.show-password-btn {
+    background: #a0aec0;
+    color: #2d3748;
+}
+
+.generate-password-btn span,
+.copy-password-btn span,
+.show-password-btn span {
+    font-size: 1rem;
+}
+
+.copy-password-btn.copied {
+    background: #38a169;
+    pointer-events: none;
+}
+
+.bank-logo-container {
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.bank-logo-container img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+    display: block;
+}

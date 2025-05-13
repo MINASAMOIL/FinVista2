@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ultimate ATM Finder</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<!-- Login/Signup Page -->
+<div id="auth-page">
+  <div class="auth-container">
+    <h1>Ultimate ATM Finder</h1>
+    <div id="login-form">
+      <input type="text" id="login-username" placeholder="Username">
+      <input type="password" id="login-password" placeholder="Password">
+      <button onclick="logIn()">Log In</button>
+      <div class="auth-switch">
+        Don't have an account? <a href="#" onclick="showSignup()">Sign Up</a>
+      </div>
+    </div>
+    <div id="signup-form" style="display: none;">
+      <div class="form-group">
+        <input type="text" id="signup-username" placeholder="Username" oninput="validateUsername()">
+        <div id="username-error" class="error-message"></div>
+      </div>
+      <div class="form-group">
+        <input type="email" id="signup-email" placeholder="Email" oninput="validateEmail()">
+        <div id="email-error" class="error-message"></div>
+      </div>
+      <div class="form-group">
+        <div class="password-input-group">
+          <input type="password" id="signup-password" placeholder="Password" oninput="validatePassword()">
+          <button type="button" class="generate-password-btn" onclick="generatePassword()" tabindex="-1">
+            <span>🔑</span>
+          </button>
+          <button type="button" class="copy-password-btn" onclick="copyPassword()" style="display: none;" tabindex="-1">
+            <span>📋</span>
+          </button>
+          <button type="button" class="show-password-btn" onclick="togglePasswordVisibility()" tabindex="-1">
+            <span id="show-password-icon">👁️</span>
+          </button>
+        </div>
+        <div class="password-strength">
+          <div class="strength-meter">
+            <div id="strength-meter-bar"></div>
+          </div>
+          <span id="strength-text">Password strength</span>
+        </div>
+        <div id="password-error" class="error-message"></div>
+      </div>
+      <button id="signup-button" onclick="signUp()" disabled>Sign Up</button>
+      <button type="button" class="bank-connect-btn" onclick="openModal('bank-modal')">Connect Bank Account</button>
+      <div class="auth-switch">
+        Already have an account? <a href="#" onclick="showLogin()">Log In</a>
+      </div>
+    </div>
+    <button class="guest-button" onclick="continueAsGuest()">Continue as Guest</button>
+  </div>
+</div>
+
+<!-- ATM Finder Page -->
+<div id="atm-finder-page">
+  <div class="container">
+    <!-- Dashboard Section -->
+    <div class="dashboard">
+      <div class="dashboard-header">
+        <h2>Welcome, <span id="username">Guest</span></h2>
+        <button onclick="logout()">Log Out</button>
+      </div>
+      <div class="dashboard-content">
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <button onclick="findNearestATM()">Find Nearest ATM</button>
+          <button onclick="viewTransactions()">View Transactions</button>
+          <button onclick="setAlert()">Set Alert</button>
+          <button onclick="contactSupport()">Contact Support</button>
+          <button onclick="showBalance()">Balance</button>
+          <button onclick="showMiniStatement()">Mini Statement</button>
+          <button onclick="showMoreBankInfo()">More</button>
+        </div>
+
+        <!-- ATM Metrics -->
+        <div class="atm-metrics">
+          <div class="metric-card">
+            <h3>Total ATMs Nearby</h3>
+            <p id="total-atms">5</p>
+          </div>
+          <div class="metric-card">
+            <h3>Average Wait Time</h3>
+            <p id="avg-wait-time">5 mins</p>
+          </div>
+          <div class="metric-card">
+            <h3>Most Popular ATM</h3>
+            <p id="popular-atm">City Center ATM</p>
+          </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="notifications">
+          <h3>Notifications</h3>
+          <ul id="notification-list">
+            <li>ATM near you has a short queue!</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map and ATM List -->
+    <h1>Ultimate ATM Finder</h1>
+    <div id="map"></div>
+    <div class="atm-grid" id="atm-list"></div>
+  </div>
+</div>
+
+<!-- Sign In Modal -->
+<div id="signin-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal('signin-modal')">&times;</span>
+    <h2>Sign In</h2>
+    <input type="text" id="signin-username" placeholder="Username">
+    <input type="password" id="signin-password" placeholder="Password">
+    <button onclick="signIn()">Sign In</button>
+  </div>
+</div>
+
+<!-- Log In Modal -->
+<div id="login-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal('login-modal')">&times;</span>
+    <h2>Log In</h2>
+    <input type="text" id="login-username" placeholder="Username">
+    <input type="password" id="login-password" placeholder="Password">
+    <button onclick="logIn()">Log In</button>
+  </div>
+</div>
+
+<!-- QR Code Modal -->
+<div id="qr-modal" class="modal">
+  <div class="modal-content" style="position:relative; text-align:center;">
+    <span class="close-btn" onclick="closeModal('qr-modal')">&times;</span>
+    <h2>Your Reservation QR Code</h2>
+    <div id="qrcode"></div>
+    <button onclick="downloadQRCode()" style="margin-top:1rem;">Download QR Code</button>
+  </div>
+</div>
+
+<!-- Bank Modal -->
+<div id="bank-modal" class="modal">
+  <div class="modal-content" style="text-align:center;">
+    <span class="close-btn" onclick="closeModal('bank-modal')">&times;</span>
+    <h2>Connect Your Bank Account</h2>
+    <select id="bank-select" style="width:100%;padding:0.5rem;margin:1rem 0;">
+      <option value="">Select a bank</option>
+      <option value="National Bank of Egypt">National Bank of Egypt</option>
+      <option value="Banque Misr">Banque Misr</option>
+      <option value="QNB Alahli">QNB Alahli</option>
+      <option value="Commercial International Bank">Commercial International Bank</option>
+      <option value="Arab African International Bank">Arab African International Bank</option>
+    </select>
+    <input type="text" id="bank-account-number" placeholder="Account Number" style="width:100%;padding:0.5rem;margin-bottom:1rem;">
+    <button onclick="authorizeBank()">Authorize</button>
+  </div>
+</div>
+
+<!-- Balance Modal -->
+<div id="balance-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal('balance-modal')">&times;</span>
+    <h2>Account Balance</h2>
+    <div id="balance-info"></div>
+  </div>
+</div>
+
+<!-- Mini Statement Modal -->
+<div id="mini-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal('mini-modal')">&times;</span>
+    <h2>Mini Statement</h2>
+    <div id="mini-info"></div>
+  </div>
+</div>
+
+<!-- More Bank Info Modal -->
+<div id="more-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal('more-modal')">&times;</span>
+    <h2>Bank Account Details</h2>
+    <div id="more-info"></div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
